@@ -15,11 +15,14 @@ defmodule MicroblogWeb.PostController do
   end
 
   def create(conn, %{"post" => post_params}) do
+    current_user = conn.assigns[:current_user]
+    post_params = Map.put(post_params, "user_id", current_user.id)
+
     case Social.create_post(post_params) do
       {:ok, post} ->
         conn
         |> put_flash(:info, "Post created successfully.")
-        |> redirect(to: post_path(conn, :show, post))
+        |> redirect(to: page_path(conn, :feed))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
