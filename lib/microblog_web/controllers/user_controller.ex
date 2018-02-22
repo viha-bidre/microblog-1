@@ -5,8 +5,10 @@ defmodule MicroblogWeb.UserController do
   alias Microblog.Accounts.User
 
   def index(conn, _params) do
+    current_user = conn.assigns[:current_user]
     users = Accounts.list_users()
-    render(conn, "index.html", users: users)
+    follows = Microblog.Social.follows_map_for(current_user.id)
+    render(conn, "index.html", users: users, follows: follows)
   end
 
   def new(conn, _params) do

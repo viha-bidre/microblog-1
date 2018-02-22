@@ -35,7 +35,8 @@ defmodule MicroblogWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", MicroblogWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", MicroblogWeb do
+    pipe_through :api
+    resources "/follows", FollowController, except: [:new, :edit]
+  end
 end

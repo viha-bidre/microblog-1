@@ -1,8 +1,14 @@
 <h2>Listing Users</h2>
 
+<script>
+ window.follow_path = "<%= follow_path(@conn, :index) %>";
+ window.current_user_id = "<%= @current_user.id %>";
+</script>
+
 <table class="table">
   <thead>
     <tr>
+      <th>-</th>
       <th>Email</th>
       <th>Name</th>
 
@@ -11,9 +17,16 @@
   </thead>
   <tbody>
 <%= for user <- @users do %>
-    <tr>
-      <td><%= user.email %></td>
-      <td><%= user.name %></td>
+  <tr>
+    <td>
+      <button class="follow-button btn btn-secondary"
+              data-user-id="<%= user.id %>"
+              data-follow="<%= @follows[user.id] %>">
+        Follow
+      </button>
+    </td>
+    <td><%= user.email %></td>
+    <td><%= user.name %></td>
 
       <td class="text-right">
         <span><%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-default btn-xs" %></span>
